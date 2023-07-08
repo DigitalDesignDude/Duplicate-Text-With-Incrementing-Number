@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Duplicate Text With Incrementing Number</title>
+    <script>
+        function duplicateCode() {
+            // Get the input values
+            var code = document.getElementById('code').value;
+            var times = parseInt(document.getElementById('times').value);
+            var startValue1 = parseInt(document.getElementById('startValue1').value);
+            var startValue2 = parseInt(document.getElementById('startValue2').value);
+            var increment1 = parseInt(document.getElementById('increment1').value);
+            var increment2 = parseInt(document.getElementById('increment2').value);
+
+            // Get the output element
+            var output = document.getElementById('output');
+
+            // Clear the output element
+            output.innerHTML = '';
+
+            // Split the code into lines
+            var codeLines = code.split('\n');
+
+            // Duplicate the code snippet
+            for (var i = 0; i < times; i++) {
+                // Create a new code element
+                var codeElement = document.createElement('code');
+
+                // Calculate the values for the two placeholders
+                var value1 = startValue1 + (increment1 * i);
+                var value2 = startValue2 + (increment2 * i);
+
+                // Append each modified line to the code element
+                codeLines.forEach(function(line) {
+                    var modifiedLine = line.replace(/{{num1}}/g, value1);
+                    modifiedLine = modifiedLine.replace(/{{num2}}/g, value2);
+                    codeElement.appendChild(document.createTextNode(modifiedLine));
+                    codeElement.appendChild(document.createElement('br'));
+                });
+
+                // Append the code element to the output
+                output.appendChild(codeElement);
+
+                // Add an additional line break
+                output.appendChild(document.createElement('br'));
+            }
+        }
+
+        function copyOutput() {
+            var output = document.getElementById('output');
+
+            // Create a range object and select the output element
+            var range = document.createRange();
+            range.selectNode(output);
+
+            // Add the range to the user's selection
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Copy the selected text
+            document.execCommand('copy');
+
+            // Clear the selection
+            selection.removeAllRanges();
+        }
+    </script>
+</head>
+
+<body>
+    <h2>Duplicate Text With Incrementing Number</h2>
+
+    <h3>How to Use</h3>
+    <p>Paste your text below and use {{num1}} in your text where you want the increamenting number to appear.<br>Optionally, use {{num2}} where you like a second increamenting number to appear.<br>You may also customize the starting value for each number and how much to increament each number by.</p>
+
+    <label for="code"><strong>Text To Duplicate:</strong></label>
+    <br>
+    <textarea id="code" rows="8" cols="100"></textarea>
+
+    <br><br>
+
+    <label for="times">Number1 Start Value:</label>
+    <input type="number" id="startValue1" value="0">
+
+
+    <label for="increment">Increament By:</label>
+    <input type="number" id="increment1" value="1">
+
+    <br><br>
+
+    <label for="times">Number2 Start Value:</label>
+    <input type="number" id="startValue2" value="1">
+
+
+    <label for="increment">Increament By:</label>
+    <input type="number" id="increment2" value="1">
+
+    <br><br>
+
+    <label for="times">Number of Duplicates:</label>
+    <input type="number" id="times" value="1">
+
+    <br><br>
+
+    <button onclick="duplicateCode()">Duplicate</button>
+
+    <button onclick="copyOutput()">Copy All Duplicated Text</button>
+
+    <br><br>
+
+    <div id="output"></div>
+</body>
+
+</html>
